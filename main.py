@@ -1,3 +1,4 @@
+# Standard imports
 import pyttsx3
 import speech_recognition as sr
 import datetime
@@ -6,15 +7,18 @@ import webbrowser
 import os
 import smtplib
 
+# Initiating pyttsx3 and sapi5
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
-# print(voices[0].id)
-engine.setProperty('voice', voices[1].id)
+# print(voices.id)
+engine.setProperty('voice', voices[0].id) # voices[1] for female voice
 
+# Speak function
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
+# Greeting function
 def wishMe():
     hour = int(datetime.datetime.now().hour)
     if hour >= 0 and hour < 12:
@@ -24,6 +28,7 @@ def wishMe():
     else:
         speak("Good Evening")
 
+# Voice to text
 def takeCommand():
     r = sr.Recognizer()
     with sr.Microphone() as source:
@@ -42,15 +47,17 @@ def takeCommand():
 
     return query
 
+# Sending mail
 def sendEmail(to, content):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
-    server.login('kartikayemars@gmail.com', 'martianphysics')
+    server.login('your-email', 'your-password')
     content.capitalize()
-    server.sendmail('kartikayemars@gmail.com', to, content)
+    server.sendmail('your-email', to, content)
     server.close()
 
+# Commands
 if __name__ == "__main__":
     wishMe()
     run = True
@@ -61,7 +68,7 @@ if __name__ == "__main__":
             speak('Searching Wikipedia...')
             query = query.replace("wikipedia", "")
             results = wikipedia.summary(query, sentences=2)
-            speak("According to Wikipedia")
+            speak("According to Wikipedia ...")
             print(results)
             speak(results)
 
@@ -82,17 +89,16 @@ if __name__ == "__main__":
             speak(strTime)
 
         elif 'open code' in query:
-            codePath = "C:\\Users\\Kartikaye\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
+            codePath = "C:\\Users\\your-pc-name\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe"
             os.startfile(codePath)
 
         elif 'exit' in query:
             engine.setProperty('rate', 143)
 
-            speak("Goodbye, Kartikaye")
+            speak("Goodbye, your-name")
             run = False
 
-        elif 'online clas' in query: 
-            webbrowser.open("https://code.whitehatjr.com/s/dashboard")
+        
 
 
         elif 'send email to father' or 'send mail to father' in query:
@@ -103,7 +109,7 @@ if __name__ == "__main__":
                 speak("What should I send?") 
                 content = takeCommand()
                 content.capitalize()
-                to = "rishidmrc@gmail.com"
+                to = "fatheremailc@gmail.com"
                 sendEmail(to, content)
                 speak("Email has been sent!!!")
             except:
@@ -117,7 +123,7 @@ if __name__ == "__main__":
                 speak("What should I send?") 
                 content = takeCommand()
                 content.capitalize()
-                to = "solasticanr@gmail.com"
+                to = "sister@gmail.com"
                 sendEmail(to, content)
                 speak("Email has been sent!!!!")
             except:
@@ -133,18 +139,14 @@ if __name__ == "__main__":
                 speak("What should I send?") 
                 content = takeCommand()
                 content.capitalize()
-                to = "solasticanr@gmail.com"
+                to = "mother@gmail.com"
                 sendEmail(to, content)
                 speak("Email has been sent!!!!")
             except:
                 speak("four o four could not send")
-                
-
-            
-                
 
         elif 'name' and 'what is' in query:
-            speak("My name is Alexa")
+            speak("My name is Jarvis")
 
         elif 'how old are you' or 'what is your age' or 'years old are you' or 'when is your birthday' in query:
             speak("I was born on March 30 two thousand and twenty")
